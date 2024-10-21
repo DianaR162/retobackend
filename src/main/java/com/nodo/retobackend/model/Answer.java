@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", name = "id_question_option", nullable = false)
     private QuestionOption questionOption;
