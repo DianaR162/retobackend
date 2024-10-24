@@ -43,7 +43,7 @@ public class UserServiceImpl implements IUserService {
         userRepository.save(user);
 
         // 5. Retornar una respuesta de éxito
-        return new ResponseDto<>(true, "User registered successfully", true);
+        return new ResponseDto<>(201, "User registered successfully", true);
     }
 }
 
