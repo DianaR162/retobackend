@@ -1,14 +1,18 @@
 package com.nodo.retobackend.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 @Setter
-@Builder
+@Getter
 public class ResponseDto<T> {
-    private int status;
+    // Getters y Setters
     private String message;
     private T data;
+
+    public ResponseDto(String message, T data) {
+        this.message = message;
+        this.data = data;
+    }
+
 }
