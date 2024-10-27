@@ -29,7 +29,7 @@ public class User {
     private String sector;
     @Column(name = "other_sector")
     private String otherSector;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String mail;
     @Column(nullable = false)
     private String password;

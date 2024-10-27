@@ -18,5 +18,4 @@ public class UserRequestDto {
     private String otherSector;
     private String mail;
     private String password;
-    private String passwordConfirm;
 }
