@@ -1,4 +1,4 @@
-package com.nodo.retobackend.dto;
+package com.nodo.retobackend.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +18,5 @@ public class UserRequestDto {
     private String otherSector;
     private String mail;
     private String password;
+    private String passwordConfirm;
 }

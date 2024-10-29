@@ -1,9 +1,8 @@
 package com.nodo.retobackend.controller;
 
 import com.nodo.retobackend.dto.ResponseDto;
-import com.nodo.retobackend.dto.UserRequestDto;
+import com.nodo.retobackend.dto.user.UserRequestDto;
 import com.nodo.retobackend.service.IUserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +17,6 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseDto<Boolean> register(@RequestBody UserRequestDto payload) {
-        return this.userService.register(payload);
+        return userService.register(payload);
     }
 }
