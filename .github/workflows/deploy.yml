@@ -42,6 +42,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 400 private_key.pem
+          cat private_key.pem
 
       - name: Upload Docker Image
         run: |
