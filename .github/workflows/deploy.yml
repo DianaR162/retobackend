@@ -47,7 +47,7 @@ jobs:
         run: |
           pwd
           ls
-          scp -i private_key.pem ./${{ vars.DOCKER_IMAGE }}.tar ${{ vars.AWS_EC2_USER }}@${{ secrets.AWS_EC2_IP }}
+          scp -i private_key.pem ${{ vars.DOCKER_IMAGE }}.tar ${{ vars.AWS_EC2_USER }}@${{ secrets.AWS_EC2_IP }}:/home/ubuntu
 
       - name: Deploy to EC2
         run: |
