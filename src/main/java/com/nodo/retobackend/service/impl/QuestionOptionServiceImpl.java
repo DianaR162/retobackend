@@ -36,6 +36,7 @@ public class QuestionOptionServiceImpl implements IQuestionOptionService {
                     return QuestionResponseDto.builder()
                             .id(firstQuestionOption.getQuestion().getId())
                             .section(firstQuestionOption.getQuestion().getSection())
+                            .subsection(firstQuestionOption.getQuestion().getSubsection())
                             .question(firstQuestionOption.getQuestion().getQuestion())
                             .options(options)
                             .build();
