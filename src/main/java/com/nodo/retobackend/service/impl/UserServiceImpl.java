@@ -8,6 +8,7 @@ import com.nodo.retobackend.exception.CoreException;
 import com.nodo.retobackend.mapper.UserMapper;
 import com.nodo.retobackend.model.User;
 import com.nodo.retobackend.repository.IUserRepository;
+import com.nodo.retobackend.service.IJwtService;
 import com.nodo.retobackend.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class UserServiceImpl implements IUserService {
     private IUserRepository userRepository;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private IJwtService jwtService;
 
     @Override
     public ResponseDto<UserResponseDto> findUserByMailAndPassword(UserAuthenticationDto userAuthenticationDto) throws CoreException {
@@ -31,11 +34,16 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() ->
                         new CoreException("No se encontró el usuario.", HttpStatus.UNAUTHORIZED.value()));
 
+        String token = jwtService.generateToken(user);
+
+        UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
+        userResponseDto.setToken(token);
+
         log.info("Finalizando el método UserServiceImpl.findUserByMailAndPassword");
 
         return ResponseDto.<UserResponseDto>builder()
                 .status(HttpStatus.OK.value())
-                .data(userMapper.userToUserResponseDto(user))
+                .data(userResponseDto)
                 .build();
     }
 

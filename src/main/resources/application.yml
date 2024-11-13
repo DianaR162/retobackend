@@ -3,6 +3,12 @@ server:
   servlet:
     context-path: /api/v1
 
+security:
+  CORS_URL: http://localhost:4200, https://estramipyme-62756.web.app
+  jwt:
+    secret-key: 88e04844923a3d65edeea3da937a355d0ae9b1d0fdea6c7decc182d8c6e92029
+    expiration-time: 3600000
+
 spring:
   datasource:
     url: jdbc:mysql://general-tests.c1o2w2666gdy.us-east-2.rds.amazonaws.com:3306/retobackend

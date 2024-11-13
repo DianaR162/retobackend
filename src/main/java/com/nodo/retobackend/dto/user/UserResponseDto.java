@@ -19,4 +19,5 @@ public class UserResponseDto {
     private String sector;
     private String otherSector;
     private String mail;
+    private String token;
 }
