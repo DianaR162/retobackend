@@ -15,6 +15,7 @@ import java.util.List;
 public class QuestionResponseDto {
     private Long id;
     private String section;
+    private String subsection;
     private String question;
     private List<Option> options;
 }

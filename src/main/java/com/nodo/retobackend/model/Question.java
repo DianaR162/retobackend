@@ -16,7 +16,8 @@ public class Question {
     private Long id;
     @Column(length = 30, nullable = false)
     private String section;
-    @Column(nullable = false)
+    @Column(length = 30)
+    private String subsection;
     @Lob
     private String question;
 }
