@@ -3,7 +3,12 @@ package com.nodo.retobackend.service.impl;
 import com.nodo.retobackend.dto.AnswerRequestDto;
 import com.nodo.retobackend.dto.ResponseDto;
 import com.nodo.retobackend.exception.CoreException;
-import com.nodo.retobackend.model.*;
+import com.nodo.retobackend.model.Answer.Answer;
+import com.nodo.retobackend.model.Answer.AnswerId;
+import com.nodo.retobackend.model.Option;
+import com.nodo.retobackend.model.Question;
+import com.nodo.retobackend.model.QuestionOption;
+import com.nodo.retobackend.model.User;
 import com.nodo.retobackend.repository.IAnswerRepository;
 import com.nodo.retobackend.repository.IQuestionOptionRepository;
 import com.nodo.retobackend.repository.IUserRepository;
@@ -40,7 +45,8 @@ public class AnswerServiceImpl implements IAnswerService {
                     .build();
 
             if (Objects.nonNull(answerExist)) {
-                QuestionOption questionOption = questionOptionRepository.findByQuestionAndOption(answerExist.getQuestionOption().getQuestion(), option).get();
+                QuestionOption questionOption = questionOptionRepository.findByQuestionAndOption(answerExist.getQuestionOption().getQuestion(), option)
+                        .orElse(null);
 
                 answerRepository.updateQuestionOption(questionOption, answerExist.getId());
             } else {
@@ -48,9 +54,15 @@ public class AnswerServiceImpl implements IAnswerService {
                         .id(answerRequest.getIdQuestion())
                         .build();
 
-                QuestionOption questionOption = questionOptionRepository.findByQuestionAndOption(question, option).get();
+                QuestionOption questionOption = questionOptionRepository.findByQuestionAndOption(question, option)
+                        .orElse(null);
+
+                AnswerId answerId = new AnswerId();
+                answerId.setUserId(user.getDocumentNumber());
+                answerId.setQuestionOptionId(questionOption.getId());
 
                 Answer answerToSave = Answer.builder()
+                        .id(answerId)
                         .user(user)
                         .questionOption(questionOption)
                         .build();
@@ -65,4 +77,5 @@ public class AnswerServiceImpl implements IAnswerService {
                 .message("Respuestas guardadas con éxito")
                 .build();
     }
+
 }
