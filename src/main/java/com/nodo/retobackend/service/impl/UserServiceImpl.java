@@ -13,6 +13,7 @@ import com.nodo.retobackend.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -25,14 +26,20 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
     @Autowired
     private IJwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseDto<UserResponseDto> findUserByMailAndPassword(UserAuthenticationDto userAuthenticationDto) throws CoreException {
         log.info("Ingresando al método UserServiceImpl.findUserByMailAndPassword");
 
-        User user = userRepository.findByMailAndPassword(userAuthenticationDto.getMail(), userAuthenticationDto.getPassword())
+        User user = userRepository.findByMail(userAuthenticationDto.getMail())
                 .orElseThrow(() ->
                         new CoreException("No se encontró el usuario.", HttpStatus.UNAUTHORIZED.value()));
+
+        if (!passwordEncoder.matches(userAuthenticationDto.getPassword(), user.getPassword())) {
+            throw new CoreException("Contraseña incorrecta.", HttpStatus.UNAUTHORIZED.value());
+        }
 
         String token = jwtService.generateToken(user);
 
@@ -57,7 +64,10 @@ public class UserServiceImpl implements IUserService {
             throw new CoreException("Usuario ya existente", HttpStatus.BAD_REQUEST.value());
         }
 
-        userRepository.save(userMapper.userRequestDtoToUser(payload));
+        User user = userMapper.userRequestDtoToUser(payload);
+        user.setPassword(passwordEncoder.encode(payload.getPassword()));
+
+        userRepository.save(user);
 
         return ResponseDto.<Boolean>builder()
                 .status(HttpStatus.CREATED.value())
